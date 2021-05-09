@@ -68,16 +68,14 @@ const chartData = async(URL) => {
     }))
 
     //Setting the ordinate and abscissa 
-    const xScaleAxis = d3.scaleTime().domain([MIN_YEAR, MAX_YEAR]).range([MARGIN.left, CHART__WIDTH - MARGIN.right]);
+    const xScaleAxis = d3.scaleLinear().domain([MIN_YEAR - 1, MAX_YEAR + 1]).range([MARGIN.left, CHART__WIDTH - MARGIN.right]);
     const yScaleAxis = d3.scaleLinear().domain([MAX_TIME, MIN_TIME]).range([CHART__HEIGHT - MARGIN.bottom, MARGIN.top]);
 
     //Setting the scale for the x and y data
 
-    const xScaleData = d3.scaleBand().domain(response.map(obj => obj.Year)).range([MARGIN.left, CHART__WIDTH - MARGIN.right]);
+    const xScaleData = d3.scaleLinear().domain([MIN_YEAR - 1, MAX_YEAR + 1]).range([MARGIN.left, CHART__WIDTH - MARGIN.right]);
     const yScaleData = d3.scaleLinear().domain([MAX_TIME_DATA, MIN_TIME_DATA]).range([CHART__HEIGHT - MARGIN.bottom, MARGIN.top]);
 
-    console.log(MAX_TIME_DATA)
-    console.log(CHART__HEIGHT - MARGIN.bottom)
 
     /*-----------------------------------Create element-----------------------------------*/
 
@@ -88,7 +86,7 @@ const chartData = async(URL) => {
     chart__container.attr("width", CHART__WIDTH)
         .attr("height", CHART__HEIGHT)
         .attr("class", "chart__container__svg")
-        .style("background-color", "blue")
+        .style("background-color", "yellow")
 
     //create group for data
 
@@ -109,12 +107,24 @@ const chartData = async(URL) => {
             let answer = minutes + seconds + milliSeconds;
             return yScaleData(answer);
         })
+        .attr("data-xvalue", d => d.Year)
+        .attr("data-yvalue", d => d.Time + ":" + d.Seconds)
 
     //create x-axis
+
+    const abscissa = d3.axisBottom().scale(xScaleAxis);
+    const xAxis = chart__container.append("g");
+    xAxis.call(abscissa)
+        .attr("id", "x-axis")
+        .attr("transform", `translate(0,${CHART__HEIGHT-MARGIN.bottom})`);
 
 
 
     //create y-axis
+
+    const ordinate = d3.axisLeft().scale(yScaleAxis);
+    const yAxis = chart__container.append("g");
+    yAxis.call(ordinate).attr("id", "y-axis").attr("transform", `translate(${MARGIN.left},0)`);
 
 
 
