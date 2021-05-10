@@ -5,4 +5,27 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-image: url(./img/cyclo-marmotte-img01.jpeg);
+    background-repeat: no-repeat;
+    background-position: center;
+    max-width: 1600px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.copyright {
+    background-color: rgb(145, 143, 142);
+    margin: 0;
+    margin-top: 20px;
+    padding: 2px 15px;
+    border-radius: 10px;
+    opacity: 0.9;
+    color: #00428d;
+}
+
+.copyright a {
+    color: #003068;
+}
+
+.chart__container {
+    position: relative;
 }
